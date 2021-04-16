@@ -183,9 +183,12 @@ class Trainer_LSD(object):
             enumerate(itertools.izip(self.train_loader, self.target_loader)), total=min(len(self.target_loader), len(self.train_loader)),
             desc='Train epoch = %d' % self.epoch, ncols=80, leave=False
         ):
-
+            
+            # AC: data comes from datasets image_label_loader
+            # AC: output for data is torch(c, w, h)
             data_source, labels_source = datas
             data_target, __ = datat
+            # AC: size is torch(c, 3, image_w, image_h). Initialize vectors
             data_source_forD = torch.zeros((data_source.size()[0], 3, self.image_size_forD[1], self.image_size_forD[0]))            
             data_target_forD = torch.zeros((data_target.size()[0], 3, self.image_size_forD[1], self.image_size_forD[0]))
             
@@ -213,7 +216,9 @@ class Trainer_LSD(object):
             # Source domain 
             score, fc7, pool4, pool3 = self.model(data_source)
             outG_src = self.netG(fc7, pool4, pool3)
+            # AC: input is generated image
             outD_src_fake_s, outD_src_fake_c = self.netD(outG_src)
+            # AC: input is original transformed image
             outD_src_real_s, outD_src_real_c = self.netD(data_source_forD)
             
             # target domain

@@ -46,9 +46,12 @@ class SegmentationData_BaseClass(data.Dataset):
         data_file = self.files[self.split][index]
         
         # Loading image and label
+        # AC: propably (w, h, c)
         img, lbl = self.image_label_loader(data_file['img'], data_file['lbl'], self.image_size, random_crop=True)
+        # AC: mirror channels, instead of rgb, bgr
         img = img[:,:,::-1]
         img -= self.mean_bgr
+        # AC: transpose image to (c, w, h)
         img = img.transpose(2, 0, 1)
         
         if self.dset != 'cityscapes':

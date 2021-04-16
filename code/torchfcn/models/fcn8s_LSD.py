@@ -300,7 +300,9 @@ class _netD(nn.Module):
             ResnetBlock(ndf*2, norm_type=2, bias=True, relu_type=2),
             ResnetBlock(ndf*2, norm_type=2, bias=True, relu_type=2),                            
         )
+        # AC: Classifier path
         self.out_s = nn.Sequential(nn.Conv2d(ndf*2, 4, 3, padding=1))
+        # AC: Segmentation path
         self.out_c = nn.Sequential(nn.Conv2d(ndf*2, n_class, 3, padding=1))
 
     def forward(self, input):   
@@ -308,4 +310,3 @@ class _netD(nn.Module):
         out_s = self.out_s(output)
         out_c = self.out_c(output)
         return out_s,out_c       
-
