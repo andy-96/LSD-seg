@@ -174,13 +174,15 @@ class Trainer_LSD(object):
         """
         Function to train the model for one epoch
         """
+        # AC: Set all nets to training mode
         self.model.train()
         self.netG.train()
         self.netD.train()
 
         for batch_idx, (datas, datat) in tqdm.tqdm(
             enumerate(itertools.izip(self.train_loader, self.target_loader)), total=min(len(self.target_loader), len(self.train_loader)),
-            desc='Train epoch = %d' % self.epoch, ncols=80, leave=False):
+            desc='Train epoch = %d' % self.epoch, ncols=80, leave=False
+        ):
 
             data_source, labels_source = datas
             data_target, __ = datat
