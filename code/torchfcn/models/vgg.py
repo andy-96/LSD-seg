@@ -7,8 +7,9 @@ import torchvision
 
 
 def VGG16(pretrained=False):
-    model = torchvision.models.vgg16(pretrained=False)
-    if not pretrained:
+    model = torchvision.models.vgg16(pretrained=True)
+    # BUG: Pretrained model from google is not available anymore...
+    if pretrained:
         return model
     model_file = _get_vgg16_pretrained_model()
     state_dict = torch.load(model_file)
@@ -19,6 +20,6 @@ def VGG16(pretrained=False):
 def _get_vgg16_pretrained_model():
     return fcn.data.cached_download(
         url='http://drive.google.com/uc?id=0B9P1L--7Wd2vLTJZMXpIRkVVRFk',
-        path=osp.expanduser('~/data/models/pytorch/vgg16_from_caffe.pth'),
+        path=osp.expanduser('~/data/lsd-seg/models/pytorch/vgg16_from_caffe.pth'),
         md5='aa75b158f4181e7f6230029eb96c1b13',
     )
